@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5ef">
+    <meta name="description" content="Descubre, comparte y disfruta libros en la biblioteca digital de tu comunidad.">
+    <meta name="app-base" content="/">
+    <title>Entre páginas — Biblioteca comunitaria</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <header class="site-header">
+      <a class="brand" href="/" data-link aria-label="Entre páginas, inicio">
+        <span class="brand-mark" aria-hidden="true">e.</span>
+        <span>entre páginas<span class="brand-dot">.</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Navegación principal">
+        <a href="/" data-link>Inicio</a>
+        <a href="/catalogo" data-link>Explorar libros</a>
+      </nav>
+      <a class="header-cta" href="/catalogo" data-link>Encuentra tu próxima lectura <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main" tabindex="-1">
+      <div id="app" aria-live="polite">
+        <p class="loading-message">Abriendo la biblioteca…</p>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="/" data-link><span class="brand-mark" aria-hidden="true">e.</span><span>entre páginas<span class="brand-dot">.</span></span></a>
+      <p>Un libro compartido hace más grande a toda la comunidad.</p>
+      <span class="footer-note">Hecho para leerse en compañía <span aria-hidden="true">♡</span></span>
+    </footer>
+  </body>
+</html>
