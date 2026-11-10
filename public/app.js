@@ -57,7 +57,7 @@ function bookGrid(books) {
 }
 
 function routeUrl(path) {
-  return `${BASE_PATH}${path}`;
+  return STATIC_MODE ? `${BASE_PATH}/#${path}` : path;
 }
 
 function filterBooks(books, filters) {
@@ -163,12 +163,15 @@ async function loadBooks() {
 }
 
 async function render() {
-  const pathname = BASE_PATH && window.location.pathname.startsWith(BASE_PATH)
-    ? window.location.pathname.slice(BASE_PATH.length) || "/"
-    : window.location.pathname;
+  const route = STATIC_MODE && window.location.hash.startsWith("#/")
+    ? new URL(window.location.hash.slice(1), window.location.origin)
+    : new URL(window.location.href);
+  const pathname = BASE_PATH && route.pathname.startsWith(BASE_PATH)
+    ? route.pathname.slice(BASE_PATH.length) || "/"
+    : route.pathname;
   try {
     if (pathname === "/catalogo") {
-      const params = new URLSearchParams(window.location.search);
+      const params = route.searchParams;
       state.filters = {
         search: params.get("search") || "",
         category: params.get("category") || "",
@@ -208,10 +211,20 @@ async function render() {
 
 function navigate(url) {
   const target = new URL(url, window.location.href);
-  if (BASE_PATH && target.pathname !== BASE_PATH && !target.pathname.startsWith(`${BASE_PATH}/`)) {
-    target.pathname = `${BASE_PATH}${target.pathname}`;
+  let destination;
+  if (STATIC_MODE) {
+    if (target.hash.startsWith("#/")) {
+      destination = `${BASE_PATH}/${target.hash}`;
+    } else {
+      if (target.pathname !== BASE_PATH && !target.pathname.startsWith(`${BASE_PATH}/`)) {
+        target.pathname = `${BASE_PATH}${target.pathname}`;
+      }
+      const routePath = target.pathname.slice(BASE_PATH.length) || "/";
+      destination = `${BASE_PATH}/#${routePath}${target.search}`;
+    }
+  } else {
+    destination = `${target.pathname}${target.search}${target.hash}`;
   }
-  const destination = `${target.pathname}${target.search}${target.hash}`;
   if (window.location.pathname + window.location.search + window.location.hash === destination) return;
   window.history.pushState({}, "", destination);
   window.scrollTo(0, 0);
