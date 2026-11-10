@@ -32,6 +32,7 @@ jobs:
           sed -i 's|name="app-base" content="/"|name="app-base" content="/tecnico/"|' public/index.html
           sed -i 's|href="/styles.css"|href="/tecnico/styles.css"|' public/index.html
           sed -i 's|src="/app.js"|src="/tecnico/app.js"|' public/index.html
+          sed -i "s|src=\"/tecnico/app.js\"|src=\"/tecnico/app.js?v=${GITHUB_SHA}\"|" public/index.html
           cp public/index.html public/404.html
           touch public/.nojekyll
       - name: Subir el artefacto de Pages
